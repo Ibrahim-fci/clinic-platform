@@ -1,5 +1,30 @@
 import mongoose from "mongoose";
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    AppointmentSchema:
+ *      type: object
+ *      required:
+ *        - firstName
+ *        - lastName
+ *        - email
+ *        - password
+ *        - role
+ *      properties:
+ *        date:
+ *          type: Date
+ *        reason:
+ *          type: string
+ *        accepted:
+ *           type: boolean
+ *        isEnded:
+ *            type: boolean
+ *
+ *
+ */
+
 const appointmentSchema = new mongoose.Schema({
   patient: {
     type: mongoose.Schema.Types.ObjectId,
