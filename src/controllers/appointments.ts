@@ -50,6 +50,8 @@ export default {
     return res.status(201).json({ appointement });
   }),
 
+  // @desc method for handeling accepetance and cancellation of an appointment
+
   acceceptAppointment: expressAsyncHandler(async (req: any, res: any) => {
     const { email } = req.user;
     const { appointmentId } = req.params;
@@ -72,8 +74,6 @@ export default {
           400
         ),
       });
-
-    console.log("!appointement.accepted", !appointement.accepted);
 
     // @desc change appointment status from false -> true and vice versa
     appointement.accepted = !appointement.accepted;

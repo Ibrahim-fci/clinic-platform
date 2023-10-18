@@ -1,18 +1,15 @@
-
 # clinic-platform
 
 clinic platform for doctors and patient, Doctors can log in, view patient profiles, and make updates, Patients receive email notifications about updates. Login to the platform and view their profiles and the updated information.
-
 
 ## Documentation
 
 [Documentation](http://localhost:9000/docs/)
 
-
 ## Usage/Examples
 
 ```javascript
-// install all dependacies 
+// install all dependacies
 > npm install
 
 // add .env file and add:
@@ -23,7 +20,7 @@ clinic platform for doctors and patient, Doctors can log in, view patient profil
 
 
 // the run the app
-  > npm run start:dev
+  > npm run start:prod
 
 
 ```

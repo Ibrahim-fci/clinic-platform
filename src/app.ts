@@ -10,6 +10,7 @@ dotenv.config();
 // @desc Routers
 import UserRouter from "./routes/userRouter";
 import AppointmentRouter from "./routes/appointmentRouter";
+import MedicalNotesRouter from "./routes/medicalNoteRouter";
 
 import connectDB from "./utils/connectDB";
 import globalError from "./middlewares/gloabal-error";
@@ -28,6 +29,7 @@ app.use(express.json());
 // @desc Routes
 app.use("/auth", UserRouter);
 app.use("/appointments", AppointmentRouter);
+app.use("/medical-notes", MedicalNotesRouter);
 
 //swagger Docs
 swaggerDocs(app, PORT);

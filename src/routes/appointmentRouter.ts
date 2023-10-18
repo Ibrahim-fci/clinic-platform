@@ -51,7 +51,7 @@ router.post(
  *       - in: path
  *         name: appointmentId
  *         schema:
- *          type: integer
+ *          type: string
  *          required: true
  *          description: appointment id
  *

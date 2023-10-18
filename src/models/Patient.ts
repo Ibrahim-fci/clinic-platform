@@ -9,6 +9,9 @@ const patientSchema = new mongoose.Schema(
     appointments: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Appointment" },
     ],
+    medicaNotes: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "MedicalNotes" },
+    ],
   },
   {
     toJSON: {

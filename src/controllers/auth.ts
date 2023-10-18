@@ -73,9 +73,9 @@ export default {
   me: expressAsyncHandler(async (req: any, res: any) => {
     const user = req.user;
     if (user.role == roles.Patient) {
-      const patient = await Patient.findOne({ email: user.email }).populate(
-        "appointments"
-      );
+      const patient = await Patient.findOne({ email: user.email })
+        .populate("appointments")
+        .populate("medicaNotes");
 
       return res.status(200).json({ user: patient });
     } else if (user.role == roles.Doctor) {
