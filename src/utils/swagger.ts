@@ -32,7 +32,7 @@ const swaggerSpec = swaggerJsdoc(options);
 
 async function swaggerDocs(app: Express, port: any) {
   // Swagger page
-  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   // Docs in JSON format
   app.get("/docs.json", (req: Request, res: Response) => {
@@ -40,7 +40,7 @@ async function swaggerDocs(app: Express, port: any) {
     res.send(swaggerSpec);
   });
 
-  console.log(`Docs available at http://localhost:${port}/docs`);
+  console.log(`Docs available at http://localhost:${port}/`);
 }
 
 export default swaggerDocs;
