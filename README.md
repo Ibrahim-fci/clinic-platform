@@ -4,7 +4,7 @@ clinic platform for doctors and patient, Doctors can log in, view patient profil
 
 ## Documentation
 
-[Documentation](http://localhost:9000/docs/)
+[Documentation](https://clinik-platform.onrender.com/)
 
 ## Usage/Examples
 
