@@ -1,12 +1,7 @@
-import User from "../models/User";
 import Patient from "../models/Patient";
 import Doctor from "../models/Doctor";
-import Specialization from "../models/Specialization";
 import Appointment from "../models/appointment";
-import rules from "../utils/roles";
 import ApiError from "../utils/error";
-import encrypt from "../utils/bcryptText";
-import jwt from "../utils/jwt";
 import expressAsyncHandler from "express-async-handler";
 import { sendEmail } from "../utils/sendMessage";
 
@@ -51,7 +46,6 @@ export default {
   }),
 
   // @desc method for handeling accepetance and cancellation of an appointment
-
   acceceptAppointment: expressAsyncHandler(async (req: any, res: any) => {
     const { email } = req.user;
     const { appointmentId } = req.params;

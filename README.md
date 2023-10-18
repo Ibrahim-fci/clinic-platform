@@ -15,7 +15,7 @@ clinic platform for doctors and patient, Doctors can log in, view patient profil
 // add .env file and add:
 
   PORT = 9000
-  URL ='mongodb+srv://ibrahim-fci:hfci565656@cluster0.meuak.mongodb.net/clinikDB'
+  URL ='db_url/clinikDB'
   TOKEN_SECRE = "SECRET_TOKEN"
 
 

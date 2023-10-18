@@ -4,7 +4,6 @@ import cors from "cors";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import swaggerUI from "swagger-ui-express";
-
 dotenv.config();
 
 // @desc Routers
