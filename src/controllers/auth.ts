@@ -8,6 +8,7 @@ import encrypt from "../utils/bcryptText";
 import jwt from "../utils/jwt";
 
 import expressAsyncHandler = require("express-async-handler");
+import roles from "../utils/roles";
 
 export default {
   signup: expressAsyncHandler(async (req: any, res: any) => {
@@ -67,6 +68,26 @@ export default {
     });
 
     return res.status(200).json({ token });
+  }),
+
+  me: expressAsyncHandler(async (req: any, res: any) => {
+    const user = req.user;
+    if (user.role == roles.Patient) {
+      const patient = await Patient.findOne({ email: user.email }).populate(
+        "appointments"
+      );
+
+      return res.status(200).json({ user: patient });
+    } else if (user.role == roles.Doctor) {
+      const doctor = await Doctor.findOne({ email: user.email }).populate(
+        "appointments"
+      );
+      return res.status(200).json({ user: doctor });
+    }
+
+    return res.status(400).json({
+      error: new ApiError("user must wit role[patient , doctor]", 400),
+    });
   }),
 };
 

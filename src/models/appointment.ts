@@ -4,6 +4,27 @@ import mongoose from "mongoose";
  * @openapi
  * components:
  *  schemas:
+ *    CreateAppointmentSchema:
+ *      type: object
+ *      required:
+ *        - doctorId
+ *        - reason
+ *      properties:
+ *        date:
+ *          type: string
+ *        doctorId:
+ *            type: string
+ *            description: doctor id
+ *        reason:
+ *            type: string
+ *            description: appointment reason
+ *
+ *
+ */
+/**
+ * @openapi
+ * components:
+ *  schemas:
  *    AppointmentSchema:
  *      type: object
  *      required:
@@ -14,13 +35,20 @@ import mongoose from "mongoose";
  *        - role
  *      properties:
  *        date:
- *          type: Date
+ *          type: string
  *        reason:
  *          type: string
  *        accepted:
  *           type: boolean
  *        isEnded:
  *            type: boolean
+ *            default: false
+ *        doctor:
+ *            type: string
+ *            description: doctor id
+ *        patient:
+ *            type: string
+ *            description: patient id
  *
  *
  */

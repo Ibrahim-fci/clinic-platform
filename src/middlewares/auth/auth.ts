@@ -16,8 +16,6 @@ const authorize = expressAsyncHandelar(
     //CHECK IF USER  EXISTED
     const user = await User.findOne({ _id: id });
     if (!user) return res.status(400).json({ msg: "user does not exist" });
-    if (user.role != rules.Patient)
-      return res.status(400).json({ msg: "user must be patient" });
 
     //RETURN USER DATA IN REQUEST.USER
     req.user = user;
