@@ -17,7 +17,7 @@ export default {
     // @desc check if user exists before
     const user = await User.findOne({ email });
     if (user)
-      return res.json({ error: new ApiError("this user existed before", 400) });
+      return res.status(400).json({ error: new ApiError("this user existed before", 400) });
 
     // @desc create patient if role == patient
     if (role == rules.Patient) await creatPatient(req.body);
@@ -47,15 +47,17 @@ export default {
 
     const user = await User.findOne({ email, role });
     if (!user)
-      return res.status(404).json({
+      return res.status(404).status(404).json({
         error: new ApiError(
           `user with email: ${email} and role : ${role} does not exist`,
           404
         ),
       });
 
+
+
     // @desc check if password matched
-    if (!encrypt.decryptText(password, user.password))
+    if (!(encrypt.decryptText(password, user.password)))
       return res
         .status(400)
         .json({ error: new ApiError(`Invalid email or password`, 400) });

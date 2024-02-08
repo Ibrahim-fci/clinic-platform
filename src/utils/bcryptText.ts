@@ -9,7 +9,7 @@ export default {
   },
 
   //function to decrypt_password or ant text
-  decryptText: async (pass: any, hash: any) => {
+  decryptText: (pass: any, hash: any) => {
     const is_compared = bcrypt.compareSync(pass, hash);
     return is_compared;
   },
