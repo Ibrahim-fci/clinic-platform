@@ -10,8 +10,27 @@ import roles from "../utils/roles";
 export default {
 
     getAll: expressAsyncHandler(async (req: any, res: any) => {
-        const doctors = await Doctor.find();
-        res.status(200).json({ doctors });
+
+
+        let { page, pageSize } = req.query
+
+        page = page ? page : 1
+        pageSize = pageSize ? pageSize : 10
+
+
+        // Calculate the number of documents to skip
+        const skip = (page - 1) * pageSize;
+
+
+
+        // @desc get all products
+        const doctorsNum: number = await Doctor.countDocuments({})
+        const doctors = await Doctor.find({}).skip(skip)
+            .limit(pageSize)
+            .exec()
+
+        return res.status(200).json({ doctors, pages: Math.ceil(doctorsNum / pageSize) || 1 })
+
     }),
 
     getOne: expressAsyncHandler(async (req: any, res: any) => {

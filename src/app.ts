@@ -11,6 +11,7 @@ import UserRouter from "./routes/userRouter";
 import AppointmentRouter from "./routes/appointmentRouter";
 import MedicalNotesRouter from "./routes/medicalNoteRouter";
 import specializationRouter from "./routes/specializationRouter";
+import doctorsRouter from "./routes/doctorsRouter";
 
 
 
@@ -33,6 +34,7 @@ app.use("/auth", UserRouter);
 app.use("/appointments", AppointmentRouter);
 app.use("/medical-notes", MedicalNotesRouter);
 app.use("/specializations", specializationRouter);
+app.use("/doctors", doctorsRouter);
 
 //swagger Docs
 swaggerDocs(app, PORT);
