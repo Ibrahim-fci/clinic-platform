@@ -1,6 +1,4 @@
-import User from "../models/User";
-import Patient from "../models/Patient";
-import Doctor from "../models/Doctor";
+
 import Specialization from "../models/Specialization";
 
 

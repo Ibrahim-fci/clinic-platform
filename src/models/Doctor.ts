@@ -41,6 +41,19 @@ const doctorSchema = new mongoose.Schema(
     image: { type: String },
     bio: { type: String },
     location: { type: String },
+    DOB: { type: Date },
+    title: {
+      type: String,
+      enum: ["professer", "lecturer", "consultant", "Specialist"]
+    },
+    gender: {
+      type: String,
+      enum: ["male", "female"]
+    },
+    money: {
+      type: Number
+    },
+
     specialization: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Specialization",
@@ -48,6 +61,12 @@ const doctorSchema = new mongoose.Schema(
     appointments: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Appointment" },
     ],
+
+    rattings: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Ratting" },
+    ],
+
+
   },
   {
     toJSON: {

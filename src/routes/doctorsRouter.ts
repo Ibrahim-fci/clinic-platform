@@ -64,4 +64,35 @@ router.get("/", doctorController.getAll);
 
 router.get("/filter/", doctorController.filterBySpecializationIdAndNAme);
 
+
+
+
+/**
+ * @openapi
+ * '/doctors/{doctorId}/':
+ *  get:
+ *     tags:
+ *      - Doctors
+ *     description: get a  Doctor By Id
+ *     parameters:
+ *       - in: path
+ *         name: doctorId
+ *         schema:
+ *          type: string
+ *          required: true
+ *     responses:
+ *          200:
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  type: object
+ *                  properties:
+ *                    user:
+ *                      type: object
+ *                      $ref: '#/components/schemas/DoctorSchema'
+ */
+
+router.get("/:id", doctorController.getOne);
+
+
 export default router;

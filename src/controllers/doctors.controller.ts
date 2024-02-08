@@ -34,7 +34,7 @@ export default {
     }),
 
     getOne: expressAsyncHandler(async (req: any, res: any) => {
-        const doctor = await Doctor.findById(req.params.id);
+        const doctor = await Doctor.findById(req.params.id).populate('rattings specialization').exec();
         res.status(200).json({ doctor });
     }),
 
