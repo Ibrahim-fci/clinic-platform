@@ -27,7 +27,7 @@ export default {
         _id: specializationID,
       });
       if (!specialization)
-        return res.json({
+        return res.status(400).json({
           error: new ApiError(
             `specialization with id ${specializationID} does not exists`,
             400
@@ -103,6 +103,7 @@ async function creatPatient(data: any) {
 
 // @desc create doctor fun
 async function createDoctor(data: any, specialization: any) {
+
   const hash = await encrypt.encryptText(data.password);
   const doctor = await Doctor.create({
     ...data,

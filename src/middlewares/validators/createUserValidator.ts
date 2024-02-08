@@ -7,6 +7,7 @@ export default {
     check("email").isEmail().withMessage("Invalid email format"),
     check("firstName").notEmpty().withMessage("first name is required"),
     check("lastName").notEmpty().withMessage("last name is required"),
+    check("password").notEmpty().withMessage("password is required"),
     check("role").notEmpty().isIn([roles.Patient, roles.Doctor]),
 
     validatorMiddeleware,

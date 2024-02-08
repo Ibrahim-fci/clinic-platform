@@ -1,6 +1,6 @@
 import express from "express";
 
-import AppointmentController from "../controllers/appointments";
+import AppointmentController from "../controllers/appointments.controller";
 import Validator from "../middlewares/validators/appointmentValidator";
 import { authorizePatient, authorizeDoctor } from "../middlewares/auth/auth";
 const router = express.Router();

@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import MedicalNotesController from "../controllers/medicalNotes";
+import MedicalNotesController from "../controllers/medicalNotes.controller";
 import Validator from "../middlewares/validators/medicalNotesValidator";
 import { authorizeDoctor } from "../middlewares/auth/auth";
 
