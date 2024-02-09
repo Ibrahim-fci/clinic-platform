@@ -6,9 +6,14 @@ import rules from "../utils/roles";
 import ApiError from "../utils/error";
 import encrypt from "../utils/bcryptText";
 import jwt from "../utils/jwt";
+import dotenv from "dotenv";
+dotenv.config();
 
 import expressAsyncHandler = require("express-async-handler");
 import roles from "../utils/roles";
+
+
+const HOST = process.env.HOST;
 
 export default {
   signup: expressAsyncHandler(async (req: any, res: any) => {
@@ -79,7 +84,7 @@ export default {
         .populate("appointments")
         .populate("medicaNotes");
 
-      return res.status(200).json({ user: patient });
+      res.status(200).json({ user: patient });
     } else if (user.role == roles.Doctor) {
       const doctor = await Doctor.findOne({ email: user.email }).populate(
         "appointments"
@@ -88,9 +93,49 @@ export default {
     }
 
     return res.status(400).json({
-      error: new ApiError("user must wit role[patient , doctor]", 400),
+      error: new ApiError("user must witt role[patient , doctor", 400),
     });
   }),
+
+
+  updateUserProfile: expressAsyncHandler(async (req: any, res: any) => {
+
+    const user = req.user;
+    const file = req.file;
+
+    //  @desc check if  user is patient or doctor
+    if (user.role == roles.Patient) {
+      const patient = await Patient.findOne({ email: user.email });
+      if (!patient)
+        return res
+          .status(400)
+          .json({ error: new ApiError("patient does not exist", 400) });
+
+      patient.firstName = req.body.firstName ? req.body.firstName : patient.firstName;
+      patient.lastName = req.body.lastName ? req.body.lastName : patient.lastName;
+      patient.location = req.body.location ? req.body.location : patient.location;
+      patient.phone = req.body.phone ? req.body.phone : patient.phone;
+      patient.image = file ? `${HOST}${file.path}` : patient.image;
+
+      await patient.save();
+      return res.status(200).json({ user: patient });
+
+    } else if (user.role == roles.Doctor) {
+      const doctor = await Doctor.findOne({ email: user.email });
+      if (!doctor)
+        return res
+          .status(400)
+          .json({ error: new ApiError("doctor does not exist", 400) });
+
+      doctor.firstName = req.body.firstName ? req.body.firstName : doctor.firstName;
+      doctor.lastName = req.body.lastName ? req.body.lastName : doctor.lastName;
+      doctor.location = req.body.location ? req.body.location : doctor.location;
+      doctor.phone = req.body.phone ? req.body.phone : doctor.phone;
+      doctor.image = file ? `${HOST}${file.path}` : doctor.image;
+      await doctor.save();
+      return res.status(200).json({ user: doctor });
+    }
+  })
 };
 
 // @desc create patient fun

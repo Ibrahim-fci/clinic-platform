@@ -41,6 +41,7 @@ const doctorSchema = new mongoose.Schema(
     image: { type: String },
     bio: { type: String },
     location: { type: String },
+    phone: { type: String },
     DOB: { type: Date },
     title: {
       type: String,

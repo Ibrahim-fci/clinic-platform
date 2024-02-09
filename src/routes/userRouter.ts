@@ -3,7 +3,25 @@ import express from "express";
 import AuthController from "../controllers/auth.controller";
 import Validator from "../middlewares/validators/createUserValidator";
 import { authorize } from "../middlewares/auth/auth";
+import multer from "multer";
+import path from "path";
+
+
 const router = express.Router();
+
+
+const storage = multer.diskStorage({
+    destination: function (req: any, file: any, cb: any) {
+        cb(null, 'uploads')
+    },
+    filename: function (req: any, file: any, cb: any) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+        const ext = path.extname(file.originalname);
+        cb(null, file.fieldname + '-' + uniqueSuffix + ext)
+    }
+})
+
+const upload = multer({ storage: storage })
 
 /**
  * @openapi
@@ -79,5 +97,9 @@ router.post("/signin/", Validator.loginValidator, AuthController.signin);
  */
 
 router.get("/me/", authorize, AuthController.me);
+
+
+
+router.put("/", upload.single('image'), authorize, AuthController.updateUserProfile);
 
 export default router;

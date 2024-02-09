@@ -6,6 +6,14 @@ const patientSchema = new mongoose.Schema(
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    DOB: { type: Date },
+    location: { type: String },
+    phone: { type: String },
+    image: { type: String },
+    gender: {
+      type: String,
+      enum: ["male", "female"]
+    },
     appointments: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Appointment" },
     ],

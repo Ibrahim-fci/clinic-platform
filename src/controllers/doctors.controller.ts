@@ -6,6 +6,8 @@ import Specialization from "../models/Specialization";
 
 import expressAsyncHandler = require("express-async-handler");
 import roles from "../utils/roles";
+import { isNonNullExpression } from "typescript";
+import Ratting from "../models/Ratting";
 
 export default {
 
@@ -33,9 +35,21 @@ export default {
 
     }),
 
-    getOne: expressAsyncHandler(async (req: any, res: any) => {
+    getOne: (async (req: any, res: any) => {
         const doctor = await Doctor.findById(req.params.id).populate('rattings specialization').exec();
-        res.status(200).json({ doctor });
+        if (!doctor) return;
+        let rattingsList: any = []
+
+
+
+        for (let i = 0; i < doctor.rattings.length; i++) {
+            const ratting = await Ratting.findById(doctor.rattings[i]).populate('patient').exec();
+            rattingsList.push(ratting)
+        }
+
+        doctor.rattings = rattingsList
+
+        return res.status(200).json({ doctor });
     }),
 
 
