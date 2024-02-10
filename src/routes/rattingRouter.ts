@@ -57,6 +57,13 @@ router.get("/:doctorId", rattingController.getDocRates);
 
 
 
+
+
+
+
+
+
+
 export default router;
 
 

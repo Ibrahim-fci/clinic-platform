@@ -14,7 +14,6 @@ export default {
         const { comment, rate, doctorId } = req.body
         const user = req.user
 
-        await getBest5RatedDocs()
 
 
         // check if the user is patient
@@ -62,32 +61,9 @@ export default {
 
 
 
+
+
 }
 
 
-async function getBest5RatedDocs() {
-    let doctors: any = []
-    const rattings = await Ratting.aggregate([
-        {
-            $group: {
-                _id: '$doctor',
-                averageRating: { $avg: '$rate' }
-            },
-        }
-    ]).sort({ averageRating: -1 }).limit(5)
 
-
-    for (let i = 0; i < rattings.length; i++) {
-        const doctor = await Doctor.findById(rattings[i]._id).select("-password -rattings  -appointments");
-        doctors.push(doctor)
-    }
-
-
-
-
-    console.log(doctors, "kkkkkkkkkkkkkkkkkkkkk")
-
-
-
-    return doctors
-}

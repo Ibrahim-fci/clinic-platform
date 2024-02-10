@@ -103,6 +103,9 @@ export default {
     const user = req.user;
     const file = req.file;
 
+    console.log(file);
+    console.log(req.body);
+
     //  @desc check if  user is patient or doctor
     if (user.role == roles.Patient) {
       const patient = await Patient.findOne({ email: user.email });
@@ -115,7 +118,7 @@ export default {
       patient.lastName = req.body.lastName ? req.body.lastName : patient.lastName;
       patient.location = req.body.location ? req.body.location : patient.location;
       patient.phone = req.body.phone ? req.body.phone : patient.phone;
-      patient.image = file ? `${HOST}${file.path}` : patient.image;
+      patient.image = file ? `${HOST}${file.filename}` : patient.image;
 
       await patient.save();
       return res.status(200).json({ user: patient });
@@ -131,7 +134,7 @@ export default {
       doctor.lastName = req.body.lastName ? req.body.lastName : doctor.lastName;
       doctor.location = req.body.location ? req.body.location : doctor.location;
       doctor.phone = req.body.phone ? req.body.phone : doctor.phone;
-      doctor.image = file ? `${HOST}${file.path}` : doctor.image;
+      doctor.image = file ? `${HOST}${file.filename}` : doctor.image;
       await doctor.save();
       return res.status(200).json({ user: doctor });
     }

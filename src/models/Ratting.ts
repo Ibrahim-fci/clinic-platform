@@ -23,7 +23,7 @@ import { Schema, model } from "mongoose";
  */
 const RattingSchema = new Schema({
     comment: { type: String },
-    rate: { type: Number },
+    rate: { type: Number, default: 1 },
     doctor: { type: Schema.Types.ObjectId, ref: "Doctor" },
     patient: { type: Schema.Types.ObjectId, ref: "Patient" },
 });

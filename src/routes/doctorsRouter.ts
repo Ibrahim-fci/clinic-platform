@@ -95,4 +95,8 @@ router.get("/filter/", doctorController.filterBySpecializationIdAndNAme);
 router.get("/:id", doctorController.getOne);
 
 
+
+router.get("/best/rated/", doctorController.bestRatededDoctor);
+
+
 export default router;

@@ -100,6 +100,6 @@ router.get("/me/", authorize, AuthController.me);
 
 
 
-router.put("/", upload.single('image'), authorize, AuthController.updateUserProfile);
+router.put("/", authorize, upload.single('image'), AuthController.updateUserProfile);
 
 export default router;

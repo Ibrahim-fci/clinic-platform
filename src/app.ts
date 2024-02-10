@@ -13,6 +13,8 @@ import MedicalNotesRouter from "./routes/medicalNoteRouter";
 import specializationRouter from "./routes/specializationRouter";
 import doctorsRouter from "./routes/doctorsRouter";
 import rattingRouter from "./routes/rattingRouter";
+import bodyParser from "body-parser";
+import path from "path";
 
 
 
@@ -29,6 +31,9 @@ const dbUrl = process.env.URL?.toString();
 app.use(cors({ origin: "*" }));
 app.use(morgan("tiny"));
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "../uploads")));
 
 // @desc Routes
 app.use("/auth", UserRouter);

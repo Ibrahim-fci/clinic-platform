@@ -35,7 +35,10 @@ export default {
 
     }),
 
-    getOne: (async (req: any, res: any) => {
+    getOne: expressAsyncHandler(async (req: any, res: any) => {
+
+        getBest5RatedDocs()
+
         const doctor = await Doctor.findById(req.params.id).populate('rattings specialization').exec();
         if (!doctor) return;
         let rattingsList: any = []
@@ -77,7 +80,44 @@ export default {
 
         }
         res.status(200).json({ doctors });
+    }),
+
+
+    bestRatededDoctor: expressAsyncHandler(async (req: any, res: any) => {
+        let doctors = await getBest5RatedDocs()
+
+
+        return res.status(200).json({ doctors });
     })
 
 
+
+
+}
+
+
+
+
+
+async function getBest5RatedDocs() {
+    let doctors: any = []
+    const rattings = await Ratting.aggregate([
+        {
+            $group: {
+                _id: '$doctor',
+                averageRating: { $avg: '$rate' }
+            },
+        }
+    ]).sort({ averageRating: -1 }).limit(5)
+
+
+    for (let i = 0; i < rattings.length; i++) {
+        const doctor = await Doctor.findById(rattings[i]._id).select("-password -rattings  -appointments ").populate('specialization');
+        doctors.push(doctor)
+
+    }
+    console.log(doctors)
+
+
+    return doctors
 }
