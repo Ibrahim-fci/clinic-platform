@@ -58,28 +58,61 @@ export default {
 
     filterBySpecializationIdAndNAme: expressAsyncHandler(async (req: any, res: any) => {
 
-        const specializationId = req.params.specializationId
-        const name = req.params.name
+        const specializationId = req.query.specializationId
+        const name = req.query.name
 
         let doctors: any = []
 
+        let { page, pageSize } = req.query
+
+        page = page ? page : 1
+        pageSize = pageSize ? pageSize : 10
+
+
+        // Calculate the number of documents to skip
+        const skip = (page - 1) * pageSize;
+
+        let doctorsNum: number;
+
+
+
+
+
+
         // check if specialization 
-        if (!specializationId && name) {
-            doctors = await Doctor.find({ firstName: { $regex: name, $options: "i" } })
-        } else if (!name && specializationId) {
-            doctors = await Doctor.find({ specialization: specializationId })
+        if ((specializationId == undefined || specializationId == '') && name) {
+
+            doctorsNum = await Doctor.find({ firstName: { $regex: name, $options: "i" } }).count()
+            doctors = await Doctor.find({ firstName: { $regex: name, $options: "i" } }).skip(skip)
+                .limit(pageSize)
+                .exec()
+        } else if ((name == undefined || name == '') && specializationId) {
+
+            doctorsNum = await Doctor.find({ specialization: specializationId }).count()
+            doctors = await Doctor.find({ specialization: specializationId }).skip(skip)
+                .limit(pageSize)
+                .exec()
 
         } else {
-            doctors = await Doctor.find({
-                $or: [
+            doctorsNum = await Doctor.find({
+                $and: [
                     { firstName: { $regex: name, $options: "i" } },
-                    { lastName: { $regex: name, $options: "i" } },
+                    // { lastName: { $regex: name, $options: "i" } },
                     { specialization: specializationId }
                 ]
-            })
+            }).count()
+            doctors = await Doctor.find({
+                $and: [
+                    { firstName: { $regex: name, $options: "i" } },
+                    // { lastName: { $regex: name, $options: "i" } },
+                    { specialization: specializationId }
+                ]
+            }).skip(skip)
+                .limit(pageSize)
+                .exec()
 
         }
-        res.status(200).json({ doctors });
+        return res.status(200).json({ doctors, pages: Math.ceil(doctorsNum / pageSize) || 1 });
     }),
 
 
