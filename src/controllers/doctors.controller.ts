@@ -17,7 +17,7 @@ export default {
         let { page, pageSize } = req.query
 
         page = page ? page : 1
-        pageSize = pageSize ? pageSize : 10
+        pageSize = pageSize ? pageSize : 5
 
 
         // Calculate the number of documents to skip
@@ -66,7 +66,7 @@ export default {
         let { page, pageSize } = req.query
 
         page = page ? page : 1
-        pageSize = pageSize ? pageSize : 10
+        pageSize = pageSize ? pageSize : 5
 
 
         // Calculate the number of documents to skip

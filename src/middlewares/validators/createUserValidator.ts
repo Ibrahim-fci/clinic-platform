@@ -8,7 +8,8 @@ export default {
     check("firstName").notEmpty().withMessage("first name is required"),
     check("lastName").notEmpty().withMessage("last name is required"),
     check("password").notEmpty().withMessage("password is required"),
-    check("role").notEmpty().isIn([roles.Patient, roles.Doctor]),
+    check("role").isIn([roles.Patient, roles.Doctor]).withMessage("role is required"),
+
 
     validatorMiddeleware,
   ],
@@ -16,7 +17,7 @@ export default {
   loginValidator: [
     check("email").isEmail().withMessage("Invalid email format"),
     check("password").notEmpty().withMessage("password  is required"),
-    check("role").notEmpty().isIn([roles.Patient, roles.Doctor]),
+    check("role").isIn([roles.Patient, roles.Doctor]).withMessage("role is required"),
 
     validatorMiddeleware,
   ],
