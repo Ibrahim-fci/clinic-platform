@@ -118,6 +118,9 @@ export default {
       patient.lastName = req.body.lastName ? req.body.lastName : patient.lastName;
       patient.location = req.body.location ? req.body.location : patient.location;
       patient.phone = req.body.phone ? req.body.phone : patient.phone;
+      patient.bio = req.body.bio ? req.body.bio : patient.bio;
+      patient.DOB = req.body.DOB ? req.body.DOB : patient.DOB;
+      patient.gender = req.body.gender ? req.body.gender : patient.gender;
       patient.image = file ? `${HOST}${file.filename}` : patient.image;
 
       await patient.save();
@@ -134,6 +137,11 @@ export default {
       doctor.lastName = req.body.lastName ? req.body.lastName : doctor.lastName;
       doctor.location = req.body.location ? req.body.location : doctor.location;
       doctor.phone = req.body.phone ? req.body.phone : doctor.phone;
+      doctor.bio = req.body.bio ? req.body.bio : doctor.bio;
+      doctor.DOB = req.body.DOB ? req.body.DOB : doctor.DOB;
+      doctor.title = req.body.title ? req.body.title : doctor.title;
+      doctor.money = req.body.money ? req.body.money : doctor.money;
+
       doctor.image = file ? `${HOST}${file.filename}` : doctor.image;
       await doctor.save();
       return res.status(200).json({ user: doctor });

@@ -9,6 +9,7 @@ const patientSchema = new mongoose.Schema(
     DOB: { type: Date },
     location: { type: String },
     phone: { type: String },
+    bio: { type: String },
     image: { type: String },
     gender: {
       type: String,
