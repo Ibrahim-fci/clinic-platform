@@ -35,8 +35,18 @@ export default {
 
         // check if this patient rates this doc before
         const isExist = await Ratting.findOne({ doctor: doctorId, patient: patient?._id });
-        if (isExist)
-            return res.status(400).json({ error: new ApiError("you already rated this doctor", 400) });
+        if (isExist) {
+            // update it with the new rate
+            isExist.rate = rate
+            isExist.comment = comment
+            await isExist.save()
+
+            return res.status(200).json({ ratting: isExist });
+        }
+
+        // return res.status(400).json({ error: new ApiError("you already rated this doctor", 400) });
+
+
 
 
         const ratting = await Ratting.create({ comment, rate, doctor: doctorId, patient: patient?._id });
@@ -58,6 +68,14 @@ export default {
         res.status(200).json({ ratting });
     }),
 
+    getRate: expressAsyncHandler(async (req: any, res: any) => {
+
+        const rateId = req.params.id
+        const ratting = await Ratting.findById(rateId)
+        console.log(ratting);
+        res.status(200).json({ ratting });
+
+    }),
 
 
 

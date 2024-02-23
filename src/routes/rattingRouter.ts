@@ -58,6 +58,8 @@ router.get("/:doctorId", rattingController.getDocRates);
 
 
 
+router.get("/getOne/:id/", rattingController.getRate);
+
 
 
 
