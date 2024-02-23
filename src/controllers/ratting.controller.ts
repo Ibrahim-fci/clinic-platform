@@ -64,17 +64,37 @@ export default {
 
     getDocRates: expressAsyncHandler(async (req: any, res: any) => {
         const { doctorId } = req.params
-        const ratting = await Ratting.find({ doctor: doctorId })
-        res.status(200).json({ ratting });
+
+        let { page, pageSize } = req.query
+
+        page = page ? page : 1
+        pageSize = pageSize ? pageSize : 5
+
+        // Calculate the number of documents to skip
+        const skip = (page - 1) * pageSize;
+
+
+        // @desc get all products
+        const rattings = await Ratting.find({ doctor: doctorId }).populate('patient').skip(skip)
+            .limit(pageSize)
+            .exec()
+        const rattingsNum = await Ratting.countDocuments({ doctor: doctorId })
+        return res.status(200).json({ ratting: rattings, pages: Math.ceil(rattingsNum / pageSize) || 1 })
+
     }),
 
     getRate: expressAsyncHandler(async (req: any, res: any) => {
 
         const rateId = req.params.id
         const ratting = await Ratting.findById(rateId)
-        console.log(ratting);
         res.status(200).json({ ratting });
 
+    }),
+
+    deleteRate: expressAsyncHandler(async (req: any, res: any) => {
+        const rateId = req.params.id
+        const ratting = await Ratting.findByIdAndDelete(rateId)
+        res.status(200).json({ ratting });
     }),
 
 

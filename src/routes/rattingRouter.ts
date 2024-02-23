@@ -35,6 +35,8 @@ router.post("/", authorize, rattingController.addDocRate);
 
 
 
+
+
 /**
  * @openapi
  * '/ratting/':
@@ -59,6 +61,8 @@ router.get("/:doctorId", rattingController.getDocRates);
 
 
 router.get("/getOne/:id/", rattingController.getRate);
+
+router.delete("/:id", rattingController.deleteRate);
 
 
 
