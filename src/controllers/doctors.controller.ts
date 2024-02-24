@@ -27,7 +27,7 @@ export default {
 
         // @desc get all products
         const doctorsNum: number = await Doctor.countDocuments({})
-        const doctors = await Doctor.find({}).skip(skip)
+        const doctors = await Doctor.find({}).populate('availableTimes').skip(skip)
             .limit(pageSize)
             .exec()
 
@@ -39,7 +39,7 @@ export default {
 
         getBest5RatedDocs()
 
-        const doctor = await Doctor.findById(req.params.id).populate('rattings specialization').exec();
+        const doctor = await Doctor.findById(req.params.id).populate('rattings specialization availableTimes').exec();
         if (!doctor) return;
         let rattingsList: any = []
 
@@ -83,13 +83,13 @@ export default {
         if ((specializationId == undefined || specializationId == '') && name) {
 
             doctorsNum = await Doctor.find({ firstName: { $regex: name, $options: "i" } }).count()
-            doctors = await Doctor.find({ firstName: { $regex: name, $options: "i" } }).skip(skip)
+            doctors = await Doctor.find({ firstName: { $regex: name, $options: "i" } }).populate('availableTimes').skip(skip)
                 .limit(pageSize)
                 .exec()
         } else if ((name == undefined || name == '') && specializationId) {
 
             doctorsNum = await Doctor.find({ specialization: specializationId }).count()
-            doctors = await Doctor.find({ specialization: specializationId }).skip(skip)
+            doctors = await Doctor.find({ specialization: specializationId }).populate('availableTimes').skip(skip)
                 .limit(pageSize)
                 .exec()
 
@@ -107,7 +107,7 @@ export default {
                     // { lastName: { $regex: name, $options: "i" } },
                     { specialization: specializationId }
                 ]
-            }).skip(skip)
+            }).populate('availableTimes').skip(skip)
                 .limit(pageSize)
                 .exec()
 
