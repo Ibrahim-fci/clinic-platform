@@ -29,6 +29,7 @@ export default {
     const check = await Appointment.find({
       doctor: doctor._id,
       dayOfWeek: day,
+      date: date,
       $or: [
         { startTime: { $lt: to }, endTime: { $gt: from } }, // Existing time overlaps with new time
         { startTime: { $gte: from, $lt: to } }, // New time starts within existing time
