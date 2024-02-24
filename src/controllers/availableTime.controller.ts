@@ -99,7 +99,40 @@ export default {
         avilableTime.endTime = updatedTo;
         avilableTime.save();
         res.status(200).json({ avilableTime });
-    })
+    }),
+
+
+
+    delete: expressAsyncHandler(async (req: any, res: any) => {
+        const { id } = req.params;
+        const user = req.user;
+
+        // @desc get the doctor from the auth middleware
+        const doctor = await Doctor.findOne({ email: user.email });
+        if (!doctor) return res.status(400).json({ error: new ApiError("doctor does not exist", 400) });
+
+
+        const doctorId = doctor._id;
+
+        // @desc check if avilable time exist
+        const avilableTime = await AvilableTime.findById(id);
+        if (!avilableTime) return res.status(400).json({ error: new ApiError("avilableTime does not exist", 400) });
+
+
+        // check if avilable time obj belongs to this doctor
+        if (avilableTime.doctor) {
+            if (!avilableTime.doctor.equals(doctorId)) return res.status(400).json({ error: new ApiError("you have no permission to delete this avilableTime", 400) });
+        }
+
+
+        avilableTime.deleteOne();
+        res.status(200).json({ msg: "avilableTime deleted successfully" });
+
+
+    }),
+
+
+
 
 
 

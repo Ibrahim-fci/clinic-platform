@@ -78,4 +78,5 @@ router.get(
 
 router.post("/availableTime", authorize, availableTimeController.add);
 router.put("/availableTime/:id", authorize, availableTimeController.update);
+router.delete("/availableTime/:id", authorize, availableTimeController.delete);
 export default router;
