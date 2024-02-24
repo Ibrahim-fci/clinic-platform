@@ -54,7 +54,6 @@ const doctorSchema = new mongoose.Schema(
     money: {
       type: Number
     },
-
     specialization: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Specialization",
@@ -62,12 +61,9 @@ const doctorSchema = new mongoose.Schema(
     appointments: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Appointment" },
     ],
-
     rattings: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Ratting" },
     ],
-
-
   },
   {
     toJSON: {
@@ -78,5 +74,11 @@ const doctorSchema = new mongoose.Schema(
     },
   }
 );
+
+// Set the DOB field to store only the date component without the time
+doctorSchema.path('DOB').get(function (dob: { toISOString: () => string; }) {
+  return dob ? dob.toISOString().split('T')[0] : dob;
+});
+
 
 export default mongoose.model("Doctor", doctorSchema);

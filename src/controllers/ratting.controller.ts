@@ -33,12 +33,13 @@ export default {
 
 
 
+
         // check if this patient rates this doc before
         const isExist = await Ratting.findOne({ doctor: doctorId, patient: patient?._id });
         if (isExist) {
             // update it with the new rate
             isExist.rate = rate
-            isExist.comment = comment
+            isExist.comment = comment ? comment : isExist.comment
             await isExist.save()
 
             return res.status(200).json({ ratting: isExist });
@@ -48,7 +49,8 @@ export default {
 
 
 
-
+        if (!comment)
+            return res.status(400).json({ error: new ApiError("please add comment", 400) });
         const ratting = await Ratting.create({ comment, rate, doctor: doctorId, patient: patient?._id });
 
 
