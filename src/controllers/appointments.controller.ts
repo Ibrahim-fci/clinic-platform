@@ -7,7 +7,7 @@ import { sendEmail } from "../utils/sendMessage";
 
 export default {
   create: expressAsyncHandler(async (req: any, res: any) => {
-    const { doctorId, date, reason } = req.body;
+    const { doctorId, date, reason, from, to, day } = req.body;
 
     const { email } = req.user;
     // @desc Get Patient from Auth middeleware
@@ -17,15 +17,60 @@ export default {
         .status(404)
         .json({ error: new ApiError("patient does not exist", 404) });
     // @desc check if  doctor exist
-    const doctor = await Doctor.findOne({ _id: doctorId });
+    const doctor = await Doctor.findOne({ _id: doctorId }).populate("availableTimes");
     if (!doctor)
       return res
         .status(404)
         .json({ error: new ApiError("doctor does not exist", 404) });
 
+
+    // check if doctor has an appointement in this day from-to or beteen
+
+    const check = await Appointment.find({
+      doctor: doctor._id,
+      dayOfWeek: day,
+      $or: [
+        { startTime: { $lt: to }, endTime: { $gt: from } }, // Existing time overlaps with new time
+        { startTime: { $gte: from, $lt: to } }, // New time starts within existing time
+        { endTime: { $gt: from, $lte: to } }, // New time ends within existing time
+        { startTime: { $lte: from }, endTime: { $gte: to } }, // New time fully contains existing time
+
+      ]
+    });
+    if (check.length > 0) return res.status(400).json({ error: new ApiError("doctor has an appointement in this  time", 400) });
+
+
+
+    // check if doctor avilable in this day at this time   and the from and to is in between
+    const checkAvilable = doctor.availableTimes.find((avilableTime: any) => {
+      if (avilableTime.dayOfWeek === day) {
+        if (avilableTime.startTime < to && avilableTime.endTime > from) {
+          return true;
+        }
+
+        if (avilableTime.startTime >= from && avilableTime.startTime <= to) {
+          return true
+        }
+
+        if (avilableTime.endTime > from && avilableTime.endTime < to) {
+          return true
+        }
+
+        if (avilableTime.startTime <= from && avilableTime.endTime >= to) {
+          return true
+        }
+      }
+    });
+    if (!checkAvilable) return res.status(400).json({ error: new ApiError("this time is not avilable", 400) });
+
+
+
     const appointement = await Appointment.create({
       patient: patient._id,
       doctor: doctor._id,
+      dayOfWeek: day,
+      startTime: from,
+      endTime: to,
       reason,
       date,
     });

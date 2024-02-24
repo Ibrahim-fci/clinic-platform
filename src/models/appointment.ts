@@ -65,7 +65,16 @@ const appointmentSchema = new mongoose.Schema({
     required: true,
   },
   date: { type: Date, required: true, default: Date.now() },
-  reason: { type: String, required: true },
+  dayOfWeek: {
+    type: Number
+  },
+  startTime: {
+    type: String
+  },
+  endTime: {
+    type: String
+  },
+  reason: { type: String, required: false },
   accepted: { type: Boolean, default: false },
   isEnded: { type: Boolean, default: false },
 });
