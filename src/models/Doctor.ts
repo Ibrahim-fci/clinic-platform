@@ -64,6 +64,9 @@ const doctorSchema = new mongoose.Schema(
     rattings: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Ratting" },
     ],
+    availableTimes: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "DoctorAvailableTime" },
+    ]
   },
   {
     toJSON: {

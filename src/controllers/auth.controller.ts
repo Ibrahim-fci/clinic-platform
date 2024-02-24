@@ -87,7 +87,7 @@ export default {
       res.status(200).json({ user: patient });
     } else if (user.role == roles.Doctor) {
       const doctor = await Doctor.findOne({ email: user.email }).populate(
-        "appointments"
+        "appointments availableTimes"
       );
       return res.status(200).json({ user: doctor });
     }

@@ -2,7 +2,8 @@ import express from "express";
 
 import AppointmentController from "../controllers/appointments.controller";
 import Validator from "../middlewares/validators/appointmentValidator";
-import { authorizePatient, authorizeDoctor } from "../middlewares/auth/auth";
+import { authorizePatient, authorizeDoctor, authorize } from "../middlewares/auth/auth";
+import availableTimeController from "../controllers/availableTime.controller";
 const router = express.Router();
 
 /**
@@ -71,4 +72,10 @@ router.get(
   authorizeDoctor,
   AppointmentController.acceceptAppointment
 );
+
+
+
+
+router.post("/availableTime", authorize, availableTimeController.add);
+router.put("/availableTime/:id", authorize, availableTimeController.update);
 export default router;
