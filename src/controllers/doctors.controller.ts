@@ -39,7 +39,7 @@ export default {
 
         getBest5RatedDocs()
 
-        const doctor = await Doctor.findById(req.params.id).populate('rattings specialization availableTimes').exec();
+        const doctor = await Doctor.findById(req.params.id).populate('rattings specialization availableTimes appointments').exec();
         if (!doctor) return;
         let rattingsList: any = []
 
