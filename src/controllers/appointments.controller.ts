@@ -42,27 +42,27 @@ export default {
 
 
 
-    // check if doctor avilable in this day at this time   and the from and to is in between
-    const checkAvilable = doctor.availableTimes.find((avilableTime: any) => {
-      if (avilableTime.dayOfWeek === day) {
-        if (avilableTime.startTime < to && avilableTime.endTime > from) {
-          return true;
-        }
+    // // check if doctor avilable in this day at this time   and the from and to is in between
+    // const checkAvilable = doctor.availableTimes.find((avilableTime: any) => {
+    //   if (avilableTime.dayOfWeek === day) {
+    //     if (avilableTime.startTime < to && avilableTime.endTime > from) {
+    //       return true;
+    //     }
 
-        if (avilableTime.startTime >= from && avilableTime.startTime <= to) {
-          return true
-        }
+    //     if (avilableTime.startTime >= from && avilableTime.startTime <= to) {
+    //       return true
+    //     }
 
-        if (avilableTime.endTime > from && avilableTime.endTime < to) {
-          return true
-        }
+    //     if (avilableTime.endTime > from && avilableTime.endTime < to) {
+    //       return true
+    //     }
 
-        if (avilableTime.startTime <= from && avilableTime.endTime >= to) {
-          return true
-        }
-      }
-    });
-    if (!checkAvilable) return res.status(400).json({ error: new ApiError("this time is not avilable", 400) });
+    //     if (avilableTime.startTime <= from && avilableTime.endTime >= to) {
+    //       return true
+    //     }
+    //   }
+    // });
+    // if (!checkAvilable) return res.status(400).json({ error: new ApiError("this time is not avilable", 400) });
 
 
 
